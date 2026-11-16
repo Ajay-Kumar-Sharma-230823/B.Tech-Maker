@@ -927,7 +927,7 @@ function MainSite() {
   const notify = useCallback((message: string) => { setToast(message); window.setTimeout(() => setToast(''), 3200) }, [])
   const toggleTheme = () => setTheme(current => current === 'light' ? 'dark' : 'light')
   const toEarly = () => document.querySelector('#registration')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  const goToPremiumGift = () => window.location.assign('/premium-gift')
+  const goToPremiumGift = () => window.open('/premium-gift', '_blank', 'noopener,noreferrer')
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme

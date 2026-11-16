@@ -276,7 +276,7 @@ const Features = memo(function Features({ notify }: { notify: (m: string) => voi
             </button>
           })}
         </div>
-        <Button type="button" className="features-cta" onClick={() => window.location.assign('https://btechmakerinnernewasap.netlify.app/')}>Explore All Features <ArrowRight size={18} /></Button>
+        <Button type="button" className="features-cta" onClick={() => window.open('https://btechmakerip.vercel.app/', '_blank', 'noopener,noreferrer')}>Explore All Features <ArrowRight size={18} /></Button>
       </div>
 
       <div className={`ecosystem ${activeNodeId ? `ecosystem-${activeNodeId}` : ''}`} aria-label="B.Tech Maker feature ecosystem">

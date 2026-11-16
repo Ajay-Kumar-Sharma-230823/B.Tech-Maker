@@ -173,7 +173,7 @@ function About() {
     <div className="section-shell about-arc-shell">
       <header className="about-arc-heading" data-reveal>
         <span className="about-arc-kicker"><i />WHAT IS B.TECH MAKER<i /></span>
-        <h2>Everything you search for, <em>in one place.</em></h2>
+        <h2>Everything you search for <em>in one place.</em></h2>
       </header>
       <div className="about-arc-visual" data-reveal>
         <svg className="arc-connectors" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">

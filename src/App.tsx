@@ -98,7 +98,7 @@ function IntroductionVideo() {
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
               onError={handleVideoError}
-              sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-forms"
+              sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox allow-forms"
             />
           ) : videoLoadFailed ? (
             <div className="video-load-error">

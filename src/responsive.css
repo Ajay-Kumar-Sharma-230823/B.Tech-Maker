@@ -30,6 +30,17 @@ img, svg, video, canvas, audio, iframe, embed, object {
   max-width: none;
 }
 
+/* Keep the platform on the same horizontal centre as the hub.  Combining the
+   individual `translate` property with a very short CSS 3D perspective
+   projection produced a browser-dependent horizontal displacement: Chromium's
+   production rasterization made the right edge appear much longer.  A 2D
+   vertical scale creates the same shallow ellipse without moving its centre. */
+.arc-hub-platform {
+  translate: none;
+  transform: translateX(-50%) scaleY(.56);
+  transform-origin: center;
+}
+
 /* ══════════════════════════════════════════════════════════════
    1. PERFORMANCE: Lazy-load below-fold images, reduced motion
    ══════════════════════════════════════════════════════════════ */

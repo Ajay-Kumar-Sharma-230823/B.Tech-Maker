@@ -1,5 +1,5 @@
 import { FormEvent, memo, useCallback, useEffect, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, ArrowUp, Award, BookOpen, BriefcaseBusiness, Building2, CalendarDays, ChartNoAxesColumnIncreasing, Check, CheckCircle2, ChevronDown, ChevronRight, CircleHelp, Cloud, Code2, Compass, FileText, Globe2, GraduationCap, LaptopMinimal, Layers3, Lightbulb, Link, Menu, Moon, Network, Play, Plus, Rocket, Search, Send, Sparkles, Star, Sun, Target, TrendingUp, UsersRound, Video, WandSparkles, X, type LucideIcon } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUp, Award, BookOpen, BriefcaseBusiness, Building2, CalendarDays, ChartNoAxesColumnIncreasing, Check, CheckCircle2, ChevronDown, ChevronRight, CircleHelp, Cloud, Code2, Compass, FileText, Globe2, GraduationCap, LaptopMinimal, Layers3, Lightbulb, Link, LoaderCircle, Mail, Menu, Moon, Network, Play, Plus, Rocket, Search, Send, Sparkles, Star, Sun, Target, TrendingUp, UsersRound, Video, WandSparkles, X, type LucideIcon } from 'lucide-react'
 import aiGuidanceWorkspace from './assets/ai-guidance-workspace.png'
 import mentorsWorkspace from './assets/mentors-collaboration-workspace.png'
 import mentorSilhouette from './assets/mentor-silhouette.png'
@@ -16,11 +16,13 @@ const mentorData = [
     initials: 'HS', name: 'Harsh Sahu', tag: 'Co-Founder & Marketing Head', recognition: 'SIH Finalist',
     bio: 'Co-founding B.Tech Maker with a focus on marketing, outreach, student engagement and building a platform that understands the real needs of engineering students.',
     skills: ['Marketing & Outreach', 'Student Engagement', 'SIH Finalist'],
+    linkedIn: 'https://www.linkedin.com/in/harsh-sahu-315b283b8/',
   },
   {
     initials: 'AK', name: 'Ajay Kumar Sharma', tag: 'Co-Founder & Developer', recognition: '2X ISRO Selected Intern (HSFC & VSSC) · 2X SIH Finalist (2024 & 2025)',
     bio: 'Building B.Tech Maker from the student perspective, combining technical development, practical engineering experience and a strong understanding of internship and hackathon opportunities.',
-    skills: ['Product Development', 'Technical Development', 'ISRO Internship Experience', 'SIH Finalist'], mentor: true,
+    skills: ['Product Development', 'Technical Development', 'ISRO Internship Experience', 'SIH Finalist'],
+    linkedIn: 'https://www.linkedin.com/in/ajay-kumar-sharma-176a0830b/',
   },
 ]
 
@@ -42,19 +44,97 @@ const aiGuidanceFeatures = [
 
 function Logo({ onClick }: { onClick?: () => void }) { return <a className="logo" href="#home" onClick={onClick} aria-label="B.Tech Maker home"><span className="logo-mark">B</span><b>B.Tech Maker</b></a> }
 function Button({ children, variant = 'primary', className = '', ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost'; className?: string }) { return <button className={`button button-${variant} ${className}`} {...props}>{children}</button> }
+function LinkedInIcon({ size = 17 }: { size?: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V8.98h3.41v1.57h.05c.47-.9 1.64-1.85 3.37-1.85 3.61 0 4.27 2.37 4.27 5.46v6.29ZM5.34 7.41a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14Zm1.78 13.04H3.56V8.98h3.56v11.47Z" /></svg> }
 function Eyebrow({ children }: { children: React.ReactNode }) { return <span className="eyebrow">{children}</span> }
 function Badge({ children }: { children: React.ReactNode }) { return <span className={`badge ${String(children).toLowerCase().replace(/\s/g, '-')}`}>{children}</span> }
 function ThemeToggle({ theme, toggle }: { theme: Theme; toggle: () => void }) { return <button className="theme-toggle" aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`} onClick={toggle}><span>{theme === 'light' ? <Sun size={16} /> : <Moon size={16} />}</span></button> }
 function SectionHeading({ eyebrow, title, copy, align = 'left' }: { eyebrow: string; title: React.ReactNode; copy: string; align?: 'left' | 'center' }) { return <div className={`section-heading ${align}`} data-reveal><Eyebrow>{eyebrow}</Eyebrow><h2>{title}</h2><p>{copy}</p></div> }
 
-function Hero({ goToEarly }: { goToEarly: () => void }) {
+function Hero() {
   const opportunities = [
     ['ISRO', 'Research internship information'], ['DRDO', 'Graduate internship information'], ['Microsoft', 'Internship opportunities'], ['Amazon', 'Internship opportunities'], ['More', 'Other MNC opportunities'],
   ]
-  return <section id="home" className="hero section-shell"><div className="hero-copy" data-reveal><Eyebrow>For engineering students</Eyebrow><h1>Engineering, made <i>navigable.</i></h1><p>One guided journey from the notes you need today to the skills, opportunities and confidence you’ll need next.</p><div className="hero-actions"><Button onClick={goToEarly}>Join Early Access <ArrowRight size={18} /></Button><a className="button button-secondary" href="https://btechmakerinnernewasap.netlify.app/">See how it works <Play size={15} /></a></div><div className="hero-chips"><span><Check size={14} /> RGPV-ready</span><span><Check size={14} /> Free to start</span><span><Check size={14} /> Mobile-first</span></div></div><div className="hero-visual" data-reveal><div className="glow glow-one" /><div className="glow glow-two" /><div className="browser-card"><div className="browser-top"><span><i /><i /><i /></span><b>Academic workspace</b><small>• • •</small></div><div className="browser-body"><span className="mock-kicker">CURRENT SEMESTER</span><h3>Semester 5 · Database<br />Management Systems</h3><nav><b>Syllabus</b><span>Notes</span><span>PYQs</span><span>Videos</span></nav><div className="mock-content"><article><span><FileText size={17} /></span><div><b>Unit 3 learning set</b><small>6 organised resources</small></div><ChevronRight size={15} /></article><article><span><Video size={17} /></span><div><b>Normalization visual guide</b><small>18 min video lesson</small></div><ChevronRight size={15} /></article></div></div></div><div className="opportunity-float internship-float"><div className="opps-head"><span>INTERNSHIP OPPORTUNITIES</span><b>Explore <ArrowRight size={12} /></b></div>{opportunities.map(([organisation, detail]) => <article key={organisation}><span className="opportunity-logo">{organisation === 'More' ? <BriefcaseBusiness size={12} /> : organisation.slice(0, 1)}</span><div><b>{organisation}</b><small>{detail}</small></div></article>)}<small className="opportunity-note">Verify openings and eligibility on official websites.</small></div></div><Marquee /></section>
+  return <section id="home" className="hero section-shell"><div className="hero-copy" data-reveal><Eyebrow>For engineering students</Eyebrow><h1>Engineering, made <i>navigable.</i></h1><p>One guided journey from the notes you need today to the skills, opportunities and confidence you’ll need next.</p><div className="hero-actions"><a className="button button-primary" href="https://btechmakerip.vercel.app/">Explore Resources <ArrowRight size={18} /></a></div><div className="hero-chips"><span><Check size={14} /> RGPV-ready</span><span><Check size={14} /> Free to start</span><span><Check size={14} /> Mobile-first</span></div></div><div className="hero-visual" data-reveal><div className="glow glow-one" /><div className="glow glow-two" /><div className="browser-card"><div className="browser-top"><span><i /><i /><i /></span><b>Academic workspace</b><small>• • •</small></div><div className="browser-body"><span className="mock-kicker">CURRENT SEMESTER</span><h3>Semester 5 · Database<br />Management Systems</h3><nav><b>Syllabus</b><span>Notes</span><span>PYQs</span><span>Videos</span></nav><div className="mock-content"><article><span><FileText size={17} /></span><div><b>Unit 3 learning set</b><small>6 organised resources</small></div><ChevronRight size={15} /></article><article><span><Video size={17} /></span><div><b>Normalization visual guide</b><small>18 min video lesson</small></div><ChevronRight size={15} /></article></div></div></div><div className="opportunity-float internship-float"><div className="opps-head"><span>INTERNSHIP OPPORTUNITIES</span><b>Explore <ArrowRight size={12} /></b></div>{opportunities.map(([organisation, detail]) => <article key={organisation}><span className="opportunity-logo">{organisation === 'More' ? <BriefcaseBusiness size={12} /> : organisation.slice(0, 1)}</span><div><b>{organisation}</b><small>{detail}</small></div></article>)}<small className="opportunity-note">Verify openings and eligibility on official websites.</small></div></div><Marquee /></section>
 }
 
 function Marquee() { const labels = ['RGPV', 'NPTEL', 'SWAYAM', 'AICTE', 'ISRO', 'Smart India Hackathon', 'AWS', 'IBM', 'Coursera']; return <div className="marquee-wrap" aria-label="Education ecosystem areas"><div className="marquee-track">{[...labels, ...labels].map((label, i) => <span key={`${label}-${i}`}>{label}<i>•</i></span>)}</div></div> }
+
+function IntroductionVideo() {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [videoLoadFailed, setVideoLoadFailed] = useState(false)
+  const [thumbnailError, setThumbnailError] = useState(false)
+  const videoId = '4wPIGs8BWlo'
+  const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`
+
+  const playVideo = () => {
+    setVideoLoadFailed(false)
+    setIsPlaying(true)
+  }
+
+  const handleVideoError = () => {
+    setVideoLoadFailed(true)
+    setIsPlaying(false)
+  }
+
+  return <section className="section video-introduction" aria-labelledby="introduction-video-title">
+    <div className="section-shell video-introduction-layout">
+      <div className="video-introduction-copy" data-reveal>
+        <Eyebrow>Get to know B.Tech Maker</Eyebrow>
+        <h2 id="introduction-video-title">More Than a Platform. <i>A Complete Engineering Journey.</i></h2>
+        <p>Discover how B.Tech Maker brings academic resources, career opportunities, skill development, internships, hackathons, and mentorship together on one platform.</p>
+        <p className="video-introduction-support">One Platform. Every Opportunity. A Better Engineering Journey.</p>
+      </div>
+      <div className="video-introduction-player" data-reveal>
+        <div className="video-introduction-meta">
+          <span>B.Tech Maker – Introduction</span>
+          <span><Play size={12} fill="currentColor" aria-hidden="true" /> Watch video</span>
+        </div>
+        <div className="video-introduction-frame">
+          {isPlaying && !videoLoadFailed ? (
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
+              title="B.Tech Maker introduction"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              onError={handleVideoError}
+              sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-forms"
+            />
+          ) : videoLoadFailed ? (
+            <div className="video-load-error">
+              <span className="video-load-error-icon"><Play size={28} aria-hidden="true" /></span>
+              <p>Video could not load in this browser.</p>
+              <a
+                href={youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="video-load-error-link"
+              >
+                Watch on YouTube <ArrowRight size={14} aria-hidden="true" />
+              </a>
+            </div>
+          ) : (
+            <button type="button" className="video-play-button" onClick={playVideo} aria-label="Play the B.Tech Maker introduction video">
+              {thumbnailError ? (
+                <span className="video-thumbnail-fallback" aria-hidden="true">
+                  <span className="video-thumbnail-fallback-mark">B</span>
+                </span>
+              ) : (
+                <img
+                  src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+                  alt=""
+                  onError={() => setThumbnailError(true)}
+                />
+              )}
+              <span className="video-play-button-icon"><Play size={24} fill="currentColor" aria-hidden="true" /></span>
+              <span className="sr-only">Play the B.Tech Maker introduction video</span>
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+}
 
 type EcosystemCard = {
   id: string
@@ -297,7 +377,7 @@ function AIGuidance() {
   </section>
 }
 
-function Mentors({ notify }: { notify: (m: string) => void }) {
+function Mentors() {
   const mentorFeatures = [
     { title: 'Practical Learning', copy: 'From real projects.', Icon: GraduationCap },
     { title: 'Project Guidance', copy: 'Build, iterate and grow.', Icon: Code2 },
@@ -327,7 +407,7 @@ function Mentors({ notify }: { notify: (m: string) => void }) {
             <span className="mentor-recognition">{mentor.recognition}</span>
             <p>{mentor.bio}</p>
             <div className="mentor-profile-tags">{mentor.skills.map(skill => <span key={skill}>{skill}</span>)}</div>
-            {mentor.mentor && <Button variant="secondary" className="mentor-request" onClick={() => notify('Student guidance requests will be opened with early access.')}>Request Guidance <ArrowRight size={16} /></Button>}
+            <a className="button button-secondary mentor-request" href={mentor.linkedIn} target="_blank" rel="noopener noreferrer">Request Guidance <ArrowRight size={16} /></a>
           </div>
         </article>)}
       </div>
@@ -342,12 +422,12 @@ function Mentors({ notify }: { notify: (m: string) => void }) {
   </section>
 }
 
-function Plans({ goToRegistration }: { goToRegistration: () => void }) {
+function Plans({ goToRegistration, goToPremiumGift }: { goToRegistration: () => void; goToPremiumGift: () => void }) {
   const plans = [
     { name: 'Free', price: '₹0', tagline: 'A clear start for every engineering student.', points: ['Access to notes for one subject', 'Selected Previous Year Questions (PYQs)', 'Available subject solutions and learning resources', 'Limited IIT internship opportunity links', 'Basic ISRO and DRDO LOR templates', 'Access to one SIH finalist PPT', 'Access to 10 curated MNC internship opportunities'], cta: 'Get Started Free' },
     { name: 'Premium', price: '₹99', tagline: 'Everything you need for your engineering journey.', points: ['Full access to the B.Tech Maker portal', 'Complete study materials and resources', 'All available subject notes and PYQs', 'Government internship resources', 'Customized ISRO LOR templates', 'Customized DRDO LOR templates', 'ISRO and DRDO resume formats', 'Complete available hackathon resources', 'Access to all available MNC internship resources', 'One mentorship session per month'], cta: 'Get Premium Access' },
   ]
-  return <section id="plans" className="section section-alt"><div className="section-shell"><div className="plans-heading"><SectionHeading eyebrow="PLANS" title={<>Start free. Upgrade when <i>you’re ready.</i></>} copy="Two simple ways to access B.Tech Maker resources. ₹99 is displayed as a price only; billing terms will be confirmed before payment is introduced." /></div><div className="plan-grid two-plan-grid">{plans.map(plan => <article className={`plan-card ${plan.name === 'Premium' ? 'pro' : ''}`} key={plan.name}>{plan.name === 'Premium' && <span className="popular">Most complete access</span>}<Eyebrow>{plan.name}</Eyebrow><h3>{plan.price}</h3><p>{plan.tagline}</p><Button variant={plan.name === 'Premium' ? 'primary' : 'secondary'} onClick={goToRegistration}>{plan.cta} <ArrowRight size={14} /></Button><ul>{plan.points.map(point => <li key={point}><Check size={14} /> {point}</li>)}</ul></article>)}</div><p className="pricing-note"><CircleHelp size={14} /> Payment is not collected on this page. Premium access requests are registered for follow-up.</p></div></section>
+  return <section id="plans" className="section section-alt"><div className="section-shell"><div className="plans-heading"><SectionHeading eyebrow="PLANS" title={<>Start free. Upgrade when <i>you’re ready.</i></>} copy="Two simple ways to access B.Tech Maker resources. ₹99 is displayed as a price only; billing terms will be confirmed before payment is introduced." /></div><div className="plan-grid two-plan-grid">{plans.map(plan => <article className={`plan-card ${plan.name === 'Premium' ? 'pro' : ''}`} key={plan.name}>{plan.name === 'Premium' && <span className="popular">Most complete access</span>}<Eyebrow>{plan.name}</Eyebrow><h3>{plan.price}</h3><p>{plan.tagline}</p><Button variant={plan.name === 'Premium' ? 'primary' : 'secondary'} onClick={plan.name === 'Premium' ? goToPremiumGift : goToRegistration}>{plan.cta} <ArrowRight size={14} /></Button><ul>{plan.points.map(point => <li key={point}><Check size={14} /> {point}</li>)}</ul></article>)}</div><p className="pricing-note"><CircleHelp size={14} /> Payment is not collected on this page. Premium access requests are registered for follow-up.</p></div></section>
 }
 
 function BrandShowcase() {
@@ -397,13 +477,272 @@ type RegistrationFields = {
   suggestion: string
 }
 
+type GoogleSheetsRegistration = RegistrationFields & {
+  requestId: string
+  website: string
+  turnstileToken: string
+}
+
+type GoogleAppsScriptResult = {
+  type?: string
+  requestId?: string
+  ok?: boolean
+  message?: string
+}
+
+type GoogleAppsScriptStatus = {
+  ok?: boolean
+  pending?: boolean
+  message?: string
+}
+
+const GOOGLE_APPS_SCRIPT_RESULT = 'btech-maker-registration-result'
+const TURNSTILE_SCRIPT_SOURCE = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+
+type TurnstileOptions = {
+  sitekey: string
+  action: string
+  callback: (token: string) => void
+  'expired-callback': () => void
+  'error-callback': () => void
+}
+
+type TurnstileApi = {
+  render: (container: HTMLElement, options: TurnstileOptions) => string
+  remove: (widgetId: string) => void
+}
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi
+  }
+}
+
+let turnstileLoader: Promise<TurnstileApi> | undefined
+
+function loadTurnstile() {
+  if (window.turnstile) return Promise.resolve(window.turnstile)
+  if (turnstileLoader) return turnstileLoader
+
+  turnstileLoader = new Promise<TurnstileApi>((resolve, reject) => {
+    const complete = () => window.turnstile
+      ? resolve(window.turnstile)
+      : reject(new Error('The security check could not be loaded.'))
+    const existing = document.querySelector<HTMLScriptElement>('script[data-turnstile-loader]')
+
+    if (existing) {
+      existing.addEventListener('load', complete, { once: true })
+      existing.addEventListener('error', () => reject(new Error('The security check could not be loaded.')), { once: true })
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = TURNSTILE_SCRIPT_SOURCE
+    script.async = true
+    script.defer = true
+    script.dataset.turnstileLoader = 'true'
+    script.addEventListener('load', complete, { once: true })
+    script.addEventListener('error', () => reject(new Error('The security check could not be loaded.')), { once: true })
+    document.head.append(script)
+  }).catch(error => {
+    turnstileLoader = undefined
+    throw error
+  })
+
+  return turnstileLoader
+}
+
+function TurnstileChallenge({ challengeKey, onToken, onError }: { challengeKey: number; onToken: (token: string) => void; onError: (message: string) => void }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim()
+    let disposed = false
+    let widgetId: string | undefined
+
+    onToken('')
+    if (!siteKey || siteKey.includes('YOUR_TURNSTILE_SITE_KEY')) {
+      onError('Registration is not configured yet. Please try again later.')
+      return
+    }
+
+    void loadTurnstile()
+      .then(turnstile => {
+        if (disposed || !containerRef.current) return
+        widgetId = turnstile.render(containerRef.current, {
+          sitekey: siteKey,
+          action: 'early_access_registration',
+          callback: token => { onError(''); onToken(token) },
+          'expired-callback': () => { onToken(''); onError('The security check expired. Please complete it again.') },
+          'error-callback': () => { onToken(''); onError('The security check could not be completed. Please try again.') },
+        })
+      })
+      .catch(() => onError('The security check could not be loaded. Please disable content blockers or try again later.'))
+
+    return () => {
+      disposed = true
+      if (widgetId && window.turnstile) window.turnstile.remove(widgetId)
+    }
+  }, [challengeKey, onError, onToken])
+
+  return <div ref={containerRef} className="turnstile-challenge" aria-live="polite" />
+}
+
+function isGoogleAppsScriptOrigin(origin: string) {
+  return origin === 'https://script.google.com'
+    || /^https:\/\/(?:[a-z0-9-]+\.)?script\.googleusercontent\.com$/i.test(origin)
+}
+
+function createRegistrationRequestId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID()
+  return `registration-${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
+
+function readGoogleAppsScriptStatus(endpoint: string, requestId: string) {
+  return new Promise<GoogleAppsScriptStatus>((resolve, reject) => {
+    const callbackName = `btechMakerRegistrationStatus_${requestId.replace(/[^a-zA-Z0-9_$]/g, '')}`
+    const callbackHost = window as unknown as Window & Record<string, (status: GoogleAppsScriptStatus) => void>
+    const script = document.createElement('script')
+    const statusUrl = new URL(endpoint)
+    statusUrl.searchParams.set('action', 'status')
+    statusUrl.searchParams.set('requestId', requestId)
+    statusUrl.searchParams.set('callback', callbackName)
+
+    const cleanUp = () => {
+      script.remove()
+      delete callbackHost[callbackName]
+    }
+
+    callbackHost[callbackName] = (status) => {
+      cleanUp()
+      resolve(status)
+    }
+    script.onerror = () => {
+      cleanUp()
+      reject(new Error('Unable to confirm the registration service response.'))
+    }
+    script.src = statusUrl.toString()
+    document.head.append(script)
+  })
+}
+
+/**
+ * Posts to Apps Script in an off-screen iframe instead of using `no-cors`.
+ * The script records a result only after it flushes the Sheet. A unique,
+ * short-lived JSONP status read then confirms that exact submission.
+ */
+function saveRegistrationToGoogleSheets(registration: GoogleSheetsRegistration) {
+  const endpoint = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL?.trim()
+
+  if (!endpoint || endpoint.includes('YOUR_DEPLOYMENT_ID')) {
+    return Promise.reject(new Error('Registration service is not configured. Add your deployed Google Apps Script /exec URL and restart the site.'))
+  }
+
+  try {
+    const url = new URL(endpoint)
+    if (url.protocol !== 'https:' || url.hostname !== 'script.google.com') {
+      throw new Error('The registration service URL is invalid.')
+    }
+  } catch (error) {
+    return Promise.reject(error instanceof Error ? error : new Error('The registration service URL is invalid.'))
+  }
+
+  return new Promise<void>((resolve, reject) => {
+    const iframeName = `btech-maker-registration-${registration.requestId}`
+    const iframe = document.createElement('iframe')
+    const form = document.createElement('form')
+    let completed = false
+    let timeout: number | undefined
+    let polling = false
+
+    function cleanUp() {
+      window.clearTimeout(timeout)
+      window.removeEventListener('message', handleMessage)
+      form.remove()
+      iframe.remove()
+    }
+
+    function finish(error?: Error) {
+      if (completed) return
+      completed = true
+      cleanUp()
+      if (error) reject(error)
+      else resolve()
+    }
+
+    function handleMessage(event: MessageEvent<GoogleAppsScriptResult>) {
+      if (!isGoogleAppsScriptOrigin(event.origin)) return
+      if (event.source !== iframe.contentWindow) return
+
+      const result = event.data
+      if (result?.type !== GOOGLE_APPS_SCRIPT_RESULT || result.requestId !== registration.requestId) return
+      finish(result.ok ? undefined : new Error(result.message || 'We could not save your registration. Please try again.'))
+    }
+
+    async function pollForConfirmation() {
+      if (completed || polling) return
+      polling = true
+      try {
+        const status = await readGoogleAppsScriptStatus(endpoint, registration.requestId)
+        polling = false
+        if (completed) return
+        if (status.ok) return finish()
+        if (status.pending) {
+          window.setTimeout(pollForConfirmation, 750)
+          return
+        }
+        finish(new Error(status.message || 'We could not save your registration. Please try again.'))
+      } catch (error) {
+        polling = false
+        // Do not claim success without a same-request confirmation. This keeps
+        // registration status accurate if the endpoint or a content blocker
+        // prevents both confirmation mechanisms from completing.
+        finish(new Error('We could not confirm your registration. Please try again later.'))
+      }
+    }
+
+    iframe.name = iframeName
+    iframe.title = 'Registration submission'
+    iframe.setAttribute('aria-hidden', 'true')
+    iframe.className = 'registration-submit-frame'
+    iframe.addEventListener('error', () => finish(new Error('Unable to reach the registration service. Please try again.')))
+
+    form.method = 'post'
+    form.action = endpoint
+    form.target = iframeName
+    form.acceptCharset = 'UTF-8'
+    form.className = 'registration-submit-form'
+
+    Object.entries(registration).forEach(([name, value]) => {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = name
+      input.value = value
+      form.append(input)
+    })
+
+    window.addEventListener('message', handleMessage)
+    document.body.append(iframe, form)
+    timeout = window.setTimeout(() => finish(new Error('The registration service did not confirm your submission. Please try again.')), 25000)
+    form.submit()
+    window.setTimeout(pollForConfirmation, 500)
+  })
+}
+
 function FinalCTA({ notify }: { notify: (message: string) => void }) {
   const emptyFields: RegistrationFields = { name: '', course: '', branch: '', contactNumber: '', email: '', suggestion: '' }
   const [fields, setFields] = useState<RegistrationFields>(emptyFields)
   const [state, setState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
   const [charCount, setCharCount] = useState(0)
+  const [website, setWebsite] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const [turnstileError, setTurnstileError] = useState('')
+  const [challengeKey, setChallengeKey] = useState(0)
   const MAX_SUGGESTION = 1000
+
+  const onTurnstileToken = useCallback((token: string) => setTurnstileToken(token), [])
+  const onTurnstileError = useCallback((message: string) => setTurnstileError(message), [])
 
   const update = (field: keyof RegistrationFields, value: string) => {
     setFields(current => ({ ...current, [field]: value }))
@@ -416,63 +755,29 @@ function FinalCTA({ notify }: { notify: (message: string) => void }) {
     if (!fields.name.trim()) { setState('error'); setError('Full name is required.'); return }
     if (!fields.course.trim()) { setState('error'); setError('Course is required.'); return }
     if (!fields.branch.trim()) { setState('error'); setError('Branch is required.'); return }
+    if (!phone) { setState('error'); setError('Contact number is required.'); return }
     if (!/^[6-9]\d{9}$/.test(phone)) { setState('error'); setError('Enter a valid 10-digit Indian mobile number.'); return }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) { setState('error'); setError('Enter a valid email address.'); return }
     if (fields.suggestion.length > MAX_SUGGESTION) { setState('error'); setError(`Suggestion must be ${MAX_SUGGESTION} characters or fewer.`); return }
-    const stored = sessionStorage.getItem('btech-maker-registration-emails') ?? ''
-    if (stored.split(',').includes(fields.email.trim().toLowerCase())) { setState('error'); setError('This email has already been registered in this session.'); return }
+    if (!turnstileToken) { setState('error'); setError(turnstileError || 'Please complete the security check.'); return }
     setState('sending'); setError('')
     try {
-      const payload = { ...fields, contactNumber: phone }
-      const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-
-      let success = false
-
-      if (!isLocalDev) {
-        // ── Production: use the Netlify Function ──────────────────
-        const response = await fetch('/.netlify/functions/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        const result = await response.json().catch(() => ({ ok: false, message: 'Server error. Please try again.' }))
-        if (!response.ok || !result.ok) throw new Error(result.message ?? 'Submission failed.')
-        success = true
-      } else {
-        // ── Local dev: fall back to Netlify Forms (POST to /) ──────
-        // This only works on the deployed Netlify site, not localhost.
-        // On localhost this will show a helpful message instead of a
-        // cryptic error. Deploy to Netlify to test real submissions.
-        const body = new URLSearchParams({
-          'form-name': 'btech-maker-registration',
-          ...payload,
-        }).toString()
-        const response = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body,
-        })
-        if (response.ok) {
-          success = true
-        } else {
-          throw new Error(
-            'You are running on localhost. Deploy to Netlify to test live registration, or use \u0022netlify dev\u0022 locally.'
-          )
-        }
-      }
-
-      if (success) {
-        sessionStorage.setItem(
-          'btech-maker-registration-emails',
-          [stored, fields.email.trim().toLowerCase()].filter(Boolean).join(','),
-        )
-        setState('success')
-        notify('Registration received! Thank you for joining B.Tech Maker.')
-      }
+      await saveRegistrationToGoogleSheets({
+        ...fields,
+        contactNumber: phone,
+        requestId: createRegistrationRequestId(),
+        website,
+        turnstileToken,
+      })
+      setState('success')
+      notify('Registration received! Thank you for joining B.Tech Maker.')
     } catch (err) {
       const message = err instanceof Error ? err.message : 'We could not save your registration. Please try again.'
       setState('error')
       setError(message)
+    } finally {
+      // A Turnstile token is single-use once the server receives it.
+      setChallengeKey(current => current + 1)
     }
   }
 
@@ -480,48 +785,55 @@ function FinalCTA({ notify }: { notify: (message: string) => void }) {
     <section id="registration" className="section final-section">
       <div className="section-shell final-panel">
         <div data-reveal>
-          <Eyebrow>JOIN EARLY ACCESS</Eyebrow>
-          <h2>Your engineering journey, <i>organized.</i></h2>
-          <p>Register your details to receive B.Tech Maker early-access and resource updates.</p>
           {state === 'success' ? (
-            <div className="early-success registration-success" role="status">
-              <CheckCircle2 size={28} className="success-icon" />
-              <div>
-                <b>Thank you for joining B.Tech Maker!</b>
-                <small>Your registration has been received successfully. Your suggestions will help us make B.Tech Maker better for engineering students.</small>
+            <div className="registration-thank-you" role="status" aria-live="polite" aria-labelledby="registration-thank-you-title">
+              <Eyebrow>EARLY ACCESS CONFIRMED</Eyebrow>
+              <div className="thank-you-check" aria-hidden="true">
+                <span className="thank-you-check-ring" />
+                <Check size={34} strokeWidth={2.7} />
               </div>
+              <h2 id="registration-thank-you-title">Thank You for Joining B.Tech Maker!</h2>
+              <p>Your registration has been successfully received. We're excited to have you as part of the B.Tech Maker community. Get ready to explore a better engineering journey!</p>
+              <Button type="button" className="thank-you-home-button" onClick={() => window.location.assign('/')}><ArrowLeft size={16} /> Back to Home</Button>
             </div>
           ) : (
-            <form id="registration-form" name="btech-maker-registration" onSubmit={submit} noValidate>
-              <div className="registration-grid">
-                <label>Full Name<input id="registration-name" value={fields.name} onChange={e => update('name', e.target.value)} name="name" autoComplete="name" placeholder="Your full name" required /></label>
-                <label>Course<input value={fields.course} onChange={e => update('course', e.target.value)} name="course" placeholder="e.g. B.Tech" required /></label>
-                <label>Branch<input value={fields.branch} onChange={e => update('branch', e.target.value)} name="branch" placeholder="e.g. Computer Science" required /></label>
-                <label>Contact Number<input value={fields.contactNumber} onChange={e => update('contactNumber', e.target.value)} name="contactNumber" inputMode="numeric" autoComplete="tel" placeholder="10-digit mobile number" required /></label>
-                <label className="registration-email">Email Address<input value={fields.email} onChange={e => update('email', e.target.value)} name="email" type="email" autoComplete="email" placeholder="you@email.com" required /></label>
-                <label className="registration-suggestion">
-                  <span className="suggestion-label-row">
-                    What more would you like us to add to B.Tech Maker?
-                    <span className="suggestion-optional">Optional</span>
-                  </span>
-                  <textarea
-                    value={fields.suggestion}
-                    onChange={e => update('suggestion', e.target.value)}
-                    name="suggestion"
-                    placeholder="Share your ideas, suggestions, features you would love to see, or resources that would make your engineering journey easier..."
-                    maxLength={MAX_SUGGESTION}
-                    rows={4}
-                  />
-                  <span className={`char-counter ${charCount > MAX_SUGGESTION * 0.9 ? 'char-counter--warn' : ''}`}>
-                    {charCount} / {MAX_SUGGESTION}
-                  </span>
-                </label>
-              </div>
-              {state === 'error' && <small className="form-error" role="alert">{error}</small>}
-              <Button type="submit" disabled={state === 'sending'}>{state === 'sending' ? 'Saving registration...' : <><span>Join Early Access</span><ArrowRight size={16} /></>}</Button>
-            </form>
+            <>
+              <Eyebrow>JOIN EARLY ACCESS</Eyebrow>
+              <h2>Your engineering journey, <i>organized.</i></h2>
+              <p>Register your details to receive B.Tech Maker early-access and resource updates.</p>
+              <form id="registration-form" name="btech-maker-registration" onSubmit={submit} noValidate>
+                <div className="registration-grid">
+                  <label className="registration-honeypot" aria-hidden="true">Website<input value={website} onChange={event => setWebsite(event.target.value)} name="website" tabIndex={-1} autoComplete="off" /></label>
+                  <label>Full Name<input id="registration-name" value={fields.name} onChange={e => update('name', e.target.value)} name="name" autoComplete="name" placeholder="Your full name" maxLength={120} required /></label>
+                  <label>Course<input value={fields.course} onChange={e => update('course', e.target.value)} name="course" placeholder="e.g. B.Tech" maxLength={80} required /></label>
+                  <label>Branch<input value={fields.branch} onChange={e => update('branch', e.target.value)} name="branch" placeholder="e.g. Computer Science" maxLength={120} required /></label>
+                  <label>Contact Number<input value={fields.contactNumber} onChange={e => update('contactNumber', e.target.value)} name="contactNumber" inputMode="numeric" autoComplete="tel" placeholder="10-digit mobile number" maxLength={16} required /></label>
+                  <label className="registration-email">Email Address<input value={fields.email} onChange={e => update('email', e.target.value)} name="email" type="email" autoComplete="email" placeholder="you@email.com" maxLength={254} required /></label>
+                  <label className="registration-suggestion">
+                    <span className="suggestion-label-row">
+                      What more would you like us to add to B.Tech Maker?
+                      <span className="suggestion-optional">Optional</span>
+                    </span>
+                    <textarea
+                      value={fields.suggestion}
+                      onChange={e => update('suggestion', e.target.value)}
+                      name="suggestion"
+                      placeholder="Share your ideas, suggestions, features you would love to see, or resources that would make your engineering journey easier..."
+                      maxLength={MAX_SUGGESTION}
+                      rows={4}
+                    />
+                    <span className={`char-counter ${charCount > MAX_SUGGESTION * 0.9 ? 'char-counter--warn' : ''}`}>
+                      {charCount} / {MAX_SUGGESTION}
+                    </span>
+                  </label>
+                </div>
+                <TurnstileChallenge challengeKey={challengeKey} onToken={onTurnstileToken} onError={onTurnstileError} />
+                {state === 'error' && <small className="form-error" role="alert">{error}</small>}
+                <Button type="submit" disabled={state === 'sending'}>{state === 'sending' ? <><LoaderCircle className="registration-saving-icon" size={16} aria-hidden="true" /><span>Saving registration...</span></> : <><span>Join Early Access</span><ArrowRight size={16} /></>}</Button>
+              </form>
+              <small className="tagline">Democratizing engineering education. Empowering future innovators.</small>
+            </>
           )}
-          <small className="tagline">Democratizing engineering education. Empowering future innovators.</small>
         </div>
         <BrandShowcase />
       </div>
@@ -539,15 +851,68 @@ function FoundingTeam() {
 }
 
 function Footer({ theme, toggle, openLegal }: { theme: Theme; toggle: () => void; openLegal: (page: 'privacy' | 'terms') => void }) {
-  return <footer><div className="footer-inner section-shell"><div><Logo /><p>One guided journey through academics, skills, opportunities and career development.</p></div><div className="footer-links"><div><b>Product</b><a href="#features">Features</a><a href="#plans">Plans</a></div><div><b>Company</b><a href="#about">About</a><a href="#mentors">Mentors</a></div><div><b>Legal</b><button type="button" onClick={() => openLegal('privacy')}>Privacy Policy</button><button type="button" onClick={() => openLegal('terms')}>Terms & Conditions</button></div></div><div className="footer-social"><span>Connect</span><div><a href="#home" aria-label="B.Tech Maker home"><Globe2 size={17} /></a><ThemeToggle theme={theme} toggle={toggle} /></div></div></div><div className="footer-disclaimer section-shell"><strong>Independent platform disclaimer</strong><p>B.Tech Maker is an independent educational guidance and resource platform designed to support engineering students with academic materials, internship information, application guidance, resumes, LOR templates, hackathon resources and career development.</p><p>B.Tech Maker is not affiliated with, endorsed by, or officially associated with ISRO, DRDO, the Ministry of Education, the Indian Army, IITs, Microsoft, Amazon or any other government organization, institution or company unless explicitly stated.</p><p>We do not guarantee selection in internships, government programs, hackathons or any other opportunity. Students must verify eligibility and availability on official websites.</p></div></footer>
+  return <footer><div className="footer-inner section-shell"><div><Logo /><p>One guided journey through academics, skills, opportunities and career development.</p></div><div className="footer-links"><div><b>Product</b><a href="#features">Features</a><a href="#plans">Plans</a></div><div><b>Company</b><a href="#about">About</a><a href="#mentors">Mentors</a></div><div><b>Legal</b><button type="button" onClick={() => openLegal('privacy')}>Privacy Policy</button><button type="button" onClick={() => openLegal('terms')}>Terms & Conditions</button></div></div><div className="footer-social"><span>Connect</span><div className="footer-contact-links"><a href="https://www.linkedin.com/company/b-tech-maker/" target="_blank" rel="noopener noreferrer"><LinkedInIcon /><span>B.Tech Maker</span></a><a href="mailto:btechmaker@gmail.com"><Mail size={17} aria-hidden="true" /><span>btechmaker@gmail.com</span></a></div><div className="footer-utility-links"><a href="#home" aria-label="B.Tech Maker home"><Globe2 size={17} /></a><ThemeToggle theme={theme} toggle={toggle} /></div></div></div><div className="footer-disclaimer section-shell"><strong>Independent platform disclaimer</strong><p>B.Tech Maker is an independent educational guidance and resource platform designed to support engineering students with academic materials, internship information, application guidance, resumes, LOR templates, hackathon resources and career development.</p><p>B.Tech Maker is not affiliated with, endorsed by, or officially associated with ISRO, DRDO, the Ministry of Education, the Indian Army, IITs, Microsoft, Amazon or any other government organization, institution or company unless explicitly stated.</p><p>We do not guarantee selection in internships, government programs, hackathons or any other opportunity. Students must verify eligibility and availability on official websites.</p></div></footer>
 }
 
 function LegalModal({ page, close }: { page: 'privacy' | 'terms'; close: () => void }) {
   const isPrivacy = page === 'privacy'
-  return <div className="modal-backdrop legal-backdrop" role="dialog" aria-modal="true" aria-labelledby="legal-title"><article className="modal legal-modal"><button className="close" onClick={close} aria-label="Close"><X size={19} /></button><Eyebrow>LEGAL</Eyebrow><h2 id="legal-title">{isPrivacy ? 'Privacy Policy' : 'Terms & Conditions'}</h2>{isPrivacy ? <div className="legal-copy"><p>When you submit the early-access form, B.Tech Maker collects your name, course, branch, contact number and email address to manage your registration and communicate relevant platform updates.</p><p>Registration records are collected through the website’s Netlify Forms service and are accessible only to authorised B.Tech Maker administrators. We do not sell personal information. Contact information is retained only as long as needed for these purposes or to meet legal requirements.</p><p>You may request access, correction or deletion of your registration details by contacting B.Tech Maker through the official channels published with the service.</p></div> : <div className="legal-copy"><p>B.Tech Maker is an independent educational guidance and resource platform. It provides academic materials, internship information, application guidance, resumes, LOR templates, hackathon resources and career-development resources for learning and preparation.</p><p>B.Tech Maker is not affiliated with, endorsed by, or officially associated with ISRO, DRDO, the Ministry of Education, the Indian Army, IITs, Microsoft, Amazon, or any other government organization, institution or company unless explicitly stated.</p><p>We do not guarantee selection in ISRO, DRDO, Indian Army, IIT internships, MNC internships, government programs, hackathons or any other opportunity. LOR and resume templates do not guarantee selection. Internship availability and eligibility may change, so students must verify all information through official websites. Hackathon PPTs and resources are intended for learning and preparation.</p></div>}</article></div>
+  const privacyEmail = import.meta.env.VITE_PRIVACY_CONTACT_EMAIL?.trim()
+  const retentionDays = Number(import.meta.env.VITE_REGISTRATION_RETENTION_DAYS)
+  const retentionText = Number.isInteger(retentionDays) && retentionDays > 0 ? `${retentionDays} days` : 'the configured retention period'
+  return <div className="modal-backdrop legal-backdrop" role="dialog" aria-modal="true" aria-labelledby="legal-title"><article className="modal legal-modal"><button className="close" onClick={close} aria-label="Close"><X size={19} /></button><Eyebrow>LEGAL</Eyebrow><h2 id="legal-title">{isPrivacy ? 'Privacy Policy' : 'Terms & Conditions'}</h2>{isPrivacy ? <div className="legal-copy"><p>When you submit the early-access form, B.Tech Maker collects your full name, course, branch, contact number and email address to manage your registration and send relevant platform updates. Your optional suggestion is used to improve the platform. We also record the time of your registration.</p><p>Registration records are sent to Google Apps Script and stored in a private Google Sheet that should be accessible only to authorised B.Tech Maker administrators. They are retained for {retentionText}, unless a longer period is legally required. We do not sell personal information or use advertising trackers.</p><p>Google processes registration data as the form-storage provider. Google Fonts receives standard device and network information needed to serve fonts. The video thumbnail and player are provided by YouTube, which receives standard device and network information when the video is loaded.</p><p>{privacyEmail ? <>To request a copy, correction, or deletion of your registration details, email <a href={`mailto:${privacyEmail}`}>{privacyEmail}</a> from the address used to register.</> : 'Privacy contact details are not configured. Do not launch until VITE_PRIVACY_CONTACT_EMAIL is set to a monitored address.'}</p></div> : <div className="legal-copy"><p>B.Tech Maker is an independent educational guidance and resource platform. It provides academic materials, internship information, application guidance, resumes, LOR templates, hackathon resources and career-development resources for learning and preparation.</p><p>B.Tech Maker is not affiliated with, endorsed by, or officially associated with ISRO, DRDO, the Ministry of Education, the Indian Army, IITs, Microsoft, Amazon, or any other government organization, institution or company unless explicitly stated.</p><p>We do not guarantee selection in ISRO, DRDO, Indian Army, IIT internships, MNC internships, government programs, hackathons or any other opportunity. LOR and resume templates do not guarantee selection. Internship availability and eligibility may change, so students must verify all information through official websites. Hackathon PPTs and resources are intended for learning and preparation.</p></div>}</article></div>
 }
 
-function App() {
+function PremiumGiftPage() {
+  useEffect(() => { window.scrollTo(0, 0) }, [])
+
+  return <main className="premium-gift-page">
+    <div className="premium-gift-noise" aria-hidden="true" />
+    <header className="premium-gift-header">
+      <a className="premium-gift-brand" href="/" aria-label="Return to B.Tech Maker home"><span>B</span><b>B.Tech Maker</b></a>
+      <span className="premium-gift-header-note">Premium invitation</span>
+    </header>
+    <section className="premium-gift-hero" aria-labelledby="premium-gift-title">
+      <div className="premium-gift-copy">
+        <span className="premium-gift-eyebrow"><i /> A special reward from B.Tech Maker</span>
+        <h1 id="premium-gift-title">Congratulations! <span aria-hidden="true">🎉</span></h1>
+        <p className="premium-gift-subheading">You've Just Unlocked Something Special.</p>
+        <p>Your dedication, ambition, and passion for learning deserve to be celebrated.</p>
+        <p>And we believe that every engineering student deserves the opportunity to grow without worrying about the cost of accessing the right resources.</p>
+        <p className="premium-gift-emphasis">So, here's our little gift to you!</p>
+        <p className="premium-gift-announcement"><span aria-hidden="true">🎁</span><strong>Enjoy 1 Month of B.Tech Maker Premium – 100% Free!</strong></p>
+        <p>That's right! Get access to the complete Premium experience for the next 30 days, absolutely free.</p>
+        <p>Explore study materials, previous year questions, internship opportunities, hackathons, career resources, and much more.</p>
+        <p className="premium-gift-promise">No payment. No hidden charges. Just 30 days of unlimited possibilities!</p>
+        <p className="premium-gift-signoff">This one's on us. Your success is what matters! <span aria-hidden="true">❤️</span></p>
+        <div className="premium-gift-actions">
+          <a className="premium-gift-button premium-gift-button-primary" href="/">Explore B.Tech Maker <ArrowRight size={17} aria-hidden="true" /></a>
+          <a className="premium-gift-button premium-gift-button-secondary" href="/#plans"><ArrowLeft size={16} aria-hidden="true" /> Back to Plans</a>
+        </div>
+      </div>
+      <div className="premium-gift-visual" aria-hidden="true">
+        <span className="premium-gift-orbit premium-gift-orbit-one" />
+        <span className="premium-gift-orbit premium-gift-orbit-two" />
+        <div className="premium-gift-confetti"><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></div>
+        <div className="premium-gift-box">
+          <span className="premium-gift-lid"><i /><i /></span>
+          <span className="premium-gift-ribbon" />
+          <span className="premium-gift-bow premium-gift-bow-left" />
+          <span className="premium-gift-bow premium-gift-bow-right" />
+          <b>B</b>
+        </div>
+        <article className="premium-membership-card">
+          <span className="premium-membership-chip">B</span>
+          <span className="premium-membership-label">Premium member</span>
+          <strong>30</strong>
+          <span className="premium-membership-days">Days · free access</span>
+          <span className="premium-membership-footer">B.Tech Maker</span>
+        </article>
+      </div>
+    </section>
+  </main>
+}
+
+function MainSite() {
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = window.localStorage.getItem('btech-maker-theme')
     if (saved === 'light' || saved === 'dark') return saved
@@ -562,6 +927,7 @@ function App() {
   const notify = useCallback((message: string) => { setToast(message); window.setTimeout(() => setToast(''), 3200) }, [])
   const toggleTheme = () => setTheme(current => current === 'light' ? 'dark' : 'light')
   const toEarly = () => document.querySelector('#registration')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  const goToPremiumGift = () => window.location.assign('/premium-gift')
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -615,13 +981,18 @@ function App() {
     <div className="progress" />
     <header className="nav site-nav"><div className="nav-inner"><div className="nav-brand"><Logo /></div><nav aria-label="Primary navigation">{navItems.map(item => <button onClick={() => go(item.target)} className={active === item.target ? 'active' : ''} key={item.target}>{item.label}</button>)}</nav><div className="nav-actions"><ThemeToggle theme={theme} toggle={toggleTheme} /><Button onClick={toEarly}>Join Early Access <ArrowRight size={15} /></Button></div><div className="mobile-actions"><ThemeToggle theme={theme} toggle={toggleTheme} /><button onClick={() => setMenu(true)} aria-label="Open navigation" aria-expanded={menu} aria-controls="mobile-navigation"><Menu size={22} /></button></div></div></header>
     {menu && <div id="mobile-navigation" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation"><div><Logo onClick={() => setMenu(false)} /><button onClick={() => setMenu(false)} aria-label="Close navigation"><X size={23} /></button></div><nav aria-label="Mobile navigation">{navItems.map((item, index) => <button style={{ animationDelay: (index * 55) + 'ms' }} onClick={() => go(item.target)} key={item.target}>{item.label}<ArrowRight size={19} /></button>)}</nav><Button onClick={() => { setMenu(false); toEarly() }}>Join Early Access <ArrowRight size={16} /></Button></div>}
-    <main><Hero goToEarly={toEarly} /><About /><Features notify={notify} /><AIGuidance /><Mentors notify={notify} /><Plans goToRegistration={toEarly} /><FinalCTA notify={notify} /><FoundingTeam /></main>
+    <main><Hero /><IntroductionVideo /><About /><Features notify={notify} /><AIGuidance /><Mentors /><Plans goToRegistration={toEarly} goToPremiumGift={goToPremiumGift} /><FinalCTA notify={notify} /><FoundingTeam /></main>
     <Footer theme={theme} toggle={toggleTheme} openLegal={setLegalPage} />
     {showBack && <button className="back-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top"><ArrowUp size={18} /></button>}
     <div className={'sticky-cta ' + (showBack ? 'show' : '')}><span>Build your direction.</span><Button onClick={toEarly}>Join early access</Button></div>
     {legalPage && <LegalModal page={legalPage} close={() => setLegalPage(null)} />}
     {toast && <div className="toast" role="status"><CheckCircle2 size={17} /> {toast}</div>}
   </div>
+}
+
+function App() {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
+  return path === '/premium-gift' ? <PremiumGiftPage /> : <MainSite />
 }
 
 export default App

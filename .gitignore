@@ -4,6 +4,7 @@ dist/
 *.tsbuildinfo
 .env
 .env.*
+!.env.example
 dev-server.log
 
 # Embedded publish snapshot - not part of source

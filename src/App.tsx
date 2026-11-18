@@ -798,7 +798,7 @@ function FinalCTA({ notify }: { notify: (message: string) => void }) {
             </div>
           ) : (
             <>
-              <Eyebrow>JOIN EARLY ACCESS</Eyebrow>
+              <Eyebrow>SUGGEST A FEATURE</Eyebrow>
               <h2>Your engineering journey, <i>organized.</i></h2>
               <p>Register your details to receive B.Tech Maker early-access and resource updates.</p>
               <form id="registration-form" name="btech-maker-registration" onSubmit={submit} noValidate>
@@ -829,7 +829,7 @@ function FinalCTA({ notify }: { notify: (message: string) => void }) {
                 </div>
                 <TurnstileChallenge challengeKey={challengeKey} onToken={onTurnstileToken} onError={onTurnstileError} />
                 {state === 'error' && <small className="form-error" role="alert">{error}</small>}
-                <Button type="submit" disabled={state === 'sending'}>{state === 'sending' ? <><LoaderCircle className="registration-saving-icon" size={16} aria-hidden="true" /><span>Saving registration...</span></> : <><span>Join Early Access</span><ArrowRight size={16} /></>}</Button>
+                <Button type="submit" disabled={state === 'sending'}>{state === 'sending' ? <><LoaderCircle className="registration-saving-icon" size={16} aria-hidden="true" /><span>Saving registration...</span></> : <><span>Suggest a Feature</span><ArrowRight size={16} /></>}</Button>
               </form>
               <small className="tagline">Democratizing engineering education. Empowering future innovators.</small>
             </>
@@ -999,12 +999,12 @@ function MainSite() {
 
   return <div className="site">
     <div className="progress" />
-    <header className="nav site-nav"><div className="nav-inner"><div className="nav-brand"><Logo /></div><nav aria-label="Primary navigation">{navItems.map(item => <button onClick={() => go(item.target)} className={active === item.target ? 'active' : ''} key={item.target}>{item.label}</button>)}</nav><div className="nav-actions"><ThemeToggle theme={theme} toggle={toggleTheme} /><Button onClick={toEarly}>Join Early Access <ArrowRight size={15} /></Button></div><div className="mobile-actions"><ThemeToggle theme={theme} toggle={toggleTheme} /><button onClick={() => setMenu(true)} aria-label="Open navigation" aria-expanded={menu} aria-controls="mobile-navigation"><Menu size={22} /></button></div></div></header>
-    {menu && <div id="mobile-navigation" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation"><div><Logo onClick={() => setMenu(false)} /><button onClick={() => setMenu(false)} aria-label="Close navigation"><X size={23} /></button></div><nav aria-label="Mobile navigation">{navItems.map((item, index) => <button style={{ animationDelay: (index * 55) + 'ms' }} onClick={() => go(item.target)} key={item.target}>{item.label}<ArrowRight size={19} /></button>)}</nav><Button onClick={() => { setMenu(false); toEarly() }}>Join Early Access <ArrowRight size={16} /></Button></div>}
+    <header className="nav site-nav"><div className="nav-inner"><div className="nav-brand"><Logo /></div><nav aria-label="Primary navigation">{navItems.map(item => <button onClick={() => go(item.target)} className={active === item.target ? 'active' : ''} key={item.target}>{item.label}</button>)}</nav><div className="nav-actions"><ThemeToggle theme={theme} toggle={toggleTheme} /><Button onClick={toEarly}>Suggest a Feature <ArrowRight size={15} /></Button></div><div className="mobile-actions"><ThemeToggle theme={theme} toggle={toggleTheme} /><button onClick={() => setMenu(true)} aria-label="Open navigation" aria-expanded={menu} aria-controls="mobile-navigation"><Menu size={22} /></button></div></div></header>
+    {menu && <div id="mobile-navigation" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation"><div><Logo onClick={() => setMenu(false)} /><button onClick={() => setMenu(false)} aria-label="Close navigation"><X size={23} /></button></div><nav aria-label="Mobile navigation">{navItems.map((item, index) => <button style={{ animationDelay: (index * 55) + 'ms' }} onClick={() => go(item.target)} key={item.target}>{item.label}<ArrowRight size={19} /></button>)}</nav><Button onClick={() => { setMenu(false); toEarly() }}>Suggest a Feature <ArrowRight size={16} /></Button></div>}
     <main><Hero /><IntroductionVideo /><About /><Features notify={notify} /><AIGuidance /><Mentors /><Plans goToRegistration={toEarly} goToPremiumGift={goToPremiumGift} /><FinalCTA notify={notify} /><FoundingTeam /></main>
     <Footer theme={theme} toggle={toggleTheme} openLegal={setLegalPage} />
     {showBack && <button className="back-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top"><ArrowUp size={18} /></button>}
-    <div className={'sticky-cta ' + (showBack ? 'show' : '')}><span>Build your direction.</span><Button onClick={toEarly}>Join early access</Button></div>
+    <div className={'sticky-cta ' + (showBack ? 'show' : '')}><span>Build your direction.</span><Button onClick={toEarly}>Suggest a Feature</Button></div>
     {legalPage && <LegalModal page={legalPage} close={() => setLegalPage(null)} />}
     {toast && <div className="toast" role="status"><CheckCircle2 size={17} /> {toast}</div>}
   </div>

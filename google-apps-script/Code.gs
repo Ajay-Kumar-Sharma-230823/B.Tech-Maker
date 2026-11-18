@@ -151,11 +151,12 @@ function validateRegistration_(data) {
   const course = requiredText_(data.course, 'Course', 80);
   const branch = requiredText_(data.branch, 'Branch', 120);
   const contactNumber = String(data.contactNumber || '').replace(/[\s-]/g, '');
+  const normalizedContactNumber = contactNumber.startsWith('+91') ? contactNumber.slice(3) : contactNumber;
   const email = String(data.email || '').trim().toLowerCase();
   const suggestion = optionalText_(data.suggestion, 1000);
   const turnstileToken = String(data.turnstileToken || '').trim();
 
-  if (!/^[6-9]\d{9}$/.test(contactNumber)) throw new Error('Invalid contact number.');
+  if (!/^(?:\+91)?[6-9]\d{9}$/.test(contactNumber)) throw new Error('Invalid contact number.');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) throw new Error('Invalid email address.');
   if (!turnstileToken || turnstileToken.length > 2048) throw new Error('Invalid security check.');
 
@@ -163,7 +164,7 @@ function validateRegistration_(data) {
     name: sheetSafe_(name),
     course: sheetSafe_(course),
     branch: sheetSafe_(branch),
-    contactNumber: sheetSafe_(contactNumber),
+    contactNumber: sheetSafe_(normalizedContactNumber),
     email: sheetSafe_(email),
     suggestion: sheetSafe_(suggestion),
     turnstileToken,

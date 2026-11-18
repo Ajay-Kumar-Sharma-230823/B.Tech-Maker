@@ -752,11 +752,12 @@ function FinalCTA({ notify }: { notify: (message: string) => void }) {
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const phone = fields.contactNumber.replace(/[\s\-]/g, '')
+    const normalizedPhone = phone.startsWith('+91') ? phone.slice(3) : phone
     if (!fields.name.trim()) { setState('error'); setError('Full name is required.'); return }
     if (!fields.course.trim()) { setState('error'); setError('Course is required.'); return }
     if (!fields.branch.trim()) { setState('error'); setError('Branch is required.'); return }
     if (!phone) { setState('error'); setError('Contact number is required.'); return }
-    if (!/^[6-9]\d{9}$/.test(phone)) { setState('error'); setError('Enter a valid 10-digit Indian mobile number.'); return }
+    if (!/^(?:\+91)?[6-9]\d{9}$/.test(phone)) { setState('error'); setError('Enter a valid 10-digit Indian mobile number, with an optional +91 prefix.'); return }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) { setState('error'); setError('Enter a valid email address.'); return }
     if (fields.suggestion.length > MAX_SUGGESTION) { setState('error'); setError(`Suggestion must be ${MAX_SUGGESTION} characters or fewer.`); return }
     if (!turnstileToken) { setState('error'); setError(turnstileError || 'Please complete the security check.'); return }
@@ -764,7 +765,7 @@ function FinalCTA({ notify }: { notify: (message: string) => void }) {
     try {
       await saveRegistrationToGoogleSheets({
         ...fields,
-        contactNumber: phone,
+        contactNumber: normalizedPhone,
         requestId: createRegistrationRequestId(),
         website,
         turnstileToken,
@@ -807,7 +808,7 @@ function FinalCTA({ notify }: { notify: (message: string) => void }) {
                   <label>Full Name<input id="registration-name" value={fields.name} onChange={e => update('name', e.target.value)} name="name" autoComplete="name" placeholder="Your full name" maxLength={120} required /></label>
                   <label>Course<input value={fields.course} onChange={e => update('course', e.target.value)} name="course" placeholder="e.g. B.Tech" maxLength={80} required /></label>
                   <label>Branch<input value={fields.branch} onChange={e => update('branch', e.target.value)} name="branch" placeholder="e.g. Computer Science" maxLength={120} required /></label>
-                  <label>Contact Number<input value={fields.contactNumber} onChange={e => update('contactNumber', e.target.value)} name="contactNumber" inputMode="numeric" autoComplete="tel" placeholder="10-digit mobile number" maxLength={16} required /></label>
+                  <label>Contact Number<input value={fields.contactNumber} onChange={e => update('contactNumber', e.target.value)} name="contactNumber" inputMode="tel" autoComplete="tel" placeholder="10-digit mobile number or +91" maxLength={16} required /></label>
                   <label className="registration-email">Email Address<input value={fields.email} onChange={e => update('email', e.target.value)} name="email" type="email" autoComplete="email" placeholder="you@email.com" maxLength={254} required /></label>
                   <label className="registration-suggestion">
                     <span className="suggestion-label-row">

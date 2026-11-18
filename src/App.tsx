@@ -54,7 +54,7 @@ function Hero() {
   const opportunities = [
     ['ISRO', 'Research internship information'], ['DRDO', 'Graduate internship information'], ['Microsoft', 'Internship opportunities'], ['Amazon', 'Internship opportunities'], ['More', 'Other MNC opportunities'],
   ]
-  return <section id="home" className="hero section-shell"><div className="hero-copy" data-reveal><Eyebrow>For engineering students</Eyebrow><h1>Engineering, made <i>navigable.</i></h1><p>One guided journey from the notes you need today to the skills, opportunities and confidence you’ll need next.</p><div className="hero-actions"><a className="button button-primary" href="https://btechmakerip.vercel.app/" target="_blank" rel="noopener noreferrer">Explore Resources <ArrowRight size={18} /></a><a className="button button-secondary" href="#registration">Join Early Access <ArrowRight size={18} /></a></div><div className="hero-chips"><span><Check size={14} /> RGPV-ready</span><span><Check size={14} /> Free to start</span><span><Check size={14} /> Mobile-first</span></div></div><div className="hero-visual" data-reveal><div className="glow glow-one" /><div className="glow glow-two" /><div className="browser-card"><div className="browser-top"><span><i /><i /><i /></span><b>Academic workspace</b><small>• • •</small></div><div className="browser-body"><span className="mock-kicker">CURRENT SEMESTER</span><h3>Semester 5 · Database<br />Management Systems</h3><nav><b>Syllabus</b><span>Notes</span><span>PYQs</span><span>Videos</span></nav><div className="mock-content"><article><span><FileText size={17} /></span><div><b>Unit 3 learning set</b><small>6 organised resources</small></div><ChevronRight size={15} /></article><article><span><Video size={17} /></span><div><b>Normalization visual guide</b><small>18 min video lesson</small></div><ChevronRight size={15} /></article></div></div></div><div className="opportunity-float internship-float"><div className="opps-head"><span>INTERNSHIP OPPORTUNITIES</span><b>Explore <ArrowRight size={12} /></b></div>{opportunities.map(([organisation, detail]) => <article key={organisation}><span className="opportunity-logo">{organisation === 'More' ? <BriefcaseBusiness size={12} /> : organisation.slice(0, 1)}</span><div><b>{organisation}</b><small>{detail}</small></div></article>)}<small className="opportunity-note">Verify openings and eligibility on official websites.</small></div></div><Marquee /></section>
+  return <section id="home" className="hero section-shell"><div className="hero-copy" data-reveal><Eyebrow>For engineering students</Eyebrow><h1>Engineering, made <i>navigable.</i></h1><p>One guided journey from the notes you need today to the skills, opportunities and confidence you’ll need next.</p><div className="hero-actions"><a className="button button-primary" href="https://btechmakerip.vercel.app/" target="_blank" rel="noopener noreferrer">Explore Resources <ArrowRight size={18} /></a><a className="button button-secondary" href="/early-access" target="_blank" rel="noopener noreferrer">Join Early Access <ArrowRight size={18} /></a></div><div className="hero-chips"><span><Check size={14} /> RGPV-ready</span><span><Check size={14} /> Free to start</span><span><Check size={14} /> Mobile-first</span></div></div><div className="hero-visual" data-reveal><div className="glow glow-one" /><div className="glow glow-two" /><div className="browser-card"><div className="browser-top"><span><i /><i /><i /></span><b>Academic workspace</b><small>• • •</small></div><div className="browser-body"><span className="mock-kicker">CURRENT SEMESTER</span><h3>Semester 5 · Database<br />Management Systems</h3><nav><b>Syllabus</b><span>Notes</span><span>PYQs</span><span>Videos</span></nav><div className="mock-content"><article><span><FileText size={17} /></span><div><b>Unit 3 learning set</b><small>6 organised resources</small></div><ChevronRight size={15} /></article><article><span><Video size={17} /></span><div><b>Normalization visual guide</b><small>18 min video lesson</small></div><ChevronRight size={15} /></article></div></div></div><div className="opportunity-float internship-float"><div className="opps-head"><span>INTERNSHIP OPPORTUNITIES</span><b>Explore <ArrowRight size={12} /></b></div>{opportunities.map(([organisation, detail]) => <article key={organisation}><span className="opportunity-logo">{organisation === 'More' ? <BriefcaseBusiness size={12} /> : organisation.slice(0, 1)}</span><div><b>{organisation}</b><small>{detail}</small></div></article>)}<small className="opportunity-note">Verify openings and eligibility on official websites.</small></div></div><Marquee /></section>
 }
 
 function Marquee() { const labels = ['RGPV', 'NPTEL', 'SWAYAM', 'AICTE', 'ISRO', 'Smart India Hackathon', 'AWS', 'IBM', 'Coursera']; return <div className="marquee-wrap" aria-label="Education ecosystem areas"><div className="marquee-track">{[...labels, ...labels].map((label, i) => <span key={`${label}-${i}`}>{label}<i>•</i></span>)}</div></div> }
@@ -862,6 +862,26 @@ function LegalModal({ page, close }: { page: 'privacy' | 'terms'; close: () => v
   return <div className="modal-backdrop legal-backdrop" role="dialog" aria-modal="true" aria-labelledby="legal-title"><article className="modal legal-modal"><button className="close" onClick={close} aria-label="Close"><X size={19} /></button><Eyebrow>LEGAL</Eyebrow><h2 id="legal-title">{isPrivacy ? 'Privacy Policy' : 'Terms & Conditions'}</h2>{isPrivacy ? <div className="legal-copy"><p>When you submit the early-access form, B.Tech Maker collects your full name, course, branch, contact number and email address to manage your registration and send relevant platform updates. Your optional suggestion is used to improve the platform. We also record the time of your registration.</p><p>Registration records are sent to Google Apps Script and stored in a private Google Sheet that should be accessible only to authorised B.Tech Maker administrators. They are retained for {retentionText}, unless a longer period is legally required. We do not sell personal information or use advertising trackers.</p><p>Google processes registration data as the form-storage provider. Google Fonts receives standard device and network information needed to serve fonts. The video thumbnail and player are provided by YouTube, which receives standard device and network information when the video is loaded.</p><p>{privacyEmail ? <>To request a copy, correction, or deletion of your registration details, email <a href={`mailto:${privacyEmail}`}>{privacyEmail}</a> from the address used to register.</> : 'Privacy contact details are not configured. Do not launch until VITE_PRIVACY_CONTACT_EMAIL is set to a monitored address.'}</p></div> : <div className="legal-copy"><p>B.Tech Maker is an independent educational guidance and resource platform. It provides academic materials, internship information, application guidance, resumes, LOR templates, hackathon resources and career-development resources for learning and preparation.</p><p>B.Tech Maker is not affiliated with, endorsed by, or officially associated with ISRO, DRDO, the Ministry of Education, the Indian Army, IITs, Microsoft, Amazon, or any other government organization, institution or company unless explicitly stated.</p><p>We do not guarantee selection in ISRO, DRDO, Indian Army, IIT internships, MNC internships, government programs, hackathons or any other opportunity. LOR and resume templates do not guarantee selection. Internship availability and eligibility may change, so students must verify all information through official websites. Hackathon PPTs and resources are intended for learning and preparation.</p></div>}</article></div>
 }
 
+function EarlyAccessPage() {
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem('btech-maker-theme')
+    const theme = savedTheme === 'light' || savedTheme === 'dark'
+      ? savedTheme
+      : window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    document.documentElement.dataset.theme = theme
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(node => node.classList.add('visible'))
+    window.scrollTo(0, 0)
+  }, [])
+
+  return <main className="early-access-page">
+    <header className="early-access-page-header">
+      <a className="logo" href="/" aria-label="Return to B.Tech Maker home"><span className="logo-mark">B</span><b>B.Tech Maker</b></a>
+      <a className="button button-secondary" href="/"><ArrowLeft size={16} /> Back to home</a>
+    </header>
+    <FinalCTA notify={() => undefined} />
+  </main>
+}
+
 function PremiumGiftPage() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -992,7 +1012,9 @@ function MainSite() {
 
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
-  return path === '/premium-gift' ? <PremiumGiftPage /> : <MainSite />
+  if (path === '/premium-gift') return <PremiumGiftPage />
+  if (path === '/early-access') return <EarlyAccessPage />
+  return <MainSite />
 }
 
 export default App

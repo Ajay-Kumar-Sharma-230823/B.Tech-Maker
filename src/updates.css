@@ -465,3 +465,14 @@
 @media (prefers-reduced-motion: reduce) {
   .premium-gift-page *, .premium-gift-page::before, .premium-gift-page::after { animation: none !important; transition-duration: .01ms !important; }
 }
+
+/* ── Standalone early-access registration page ─────────────────────────── */
+.early-access-page { min-height: 100dvh; background: var(--page); }
+.early-access-page-header { width: min(1200px, calc(100% - 48px)); min-height: 86px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
+.early-access-page .final-section { padding-top: 44px; padding-bottom: 76px; }
+.early-access-page .final-panel { margin: 0 auto; }
+@media (max-width: 560px) {
+  .early-access-page-header { width: calc(100% - 32px); min-height: 72px; }
+  .early-access-page-header .button { min-height: 40px; padding-inline: 12px; font-size: 13px; }
+  .early-access-page .final-section { padding-top: 24px; }
+}
